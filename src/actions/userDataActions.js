@@ -51,14 +51,13 @@ export const login = (loginData) => async (dispatch) => {
       url: `${backendURL}/api/auth`,
       data: loginData,
     });
-    const token = await res.data;
+    const data = await res.data;
     // Storing Token in Local Storage
-    localStorage.setItem("axiom-auth-token", token.token);
+    localStorage.setItem("axiom-auth-token", data.token);
     dispatch({
       type: LOGIN_AND_GET_TOKEN,
-      payload: token.token ? true : false,
+      payload: !!data.token,
     });
-    await getUser();
   } catch (err) {
     console.log("Error ", err.response.data);
   }
