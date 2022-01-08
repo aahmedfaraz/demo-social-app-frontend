@@ -29,16 +29,15 @@ export const signup = (userData) => async (dispatch) => {
       },
       data: userData,
     });
-    const token = await res.data;
+    const data = await res.data;
     // Storing Token in Local Storage
-    localStorage.setItem("axiom-auth-token", token.token);
+    localStorage.setItem("axiom-auth-token", data.token);
     dispatch({
       type: SIGNUP_AND_GET_TOKEN,
-      payload: token.token ? true : false,
+      payload: !!data.token,
     });
-    await getUser();
   } catch (err) {
-    console.log("Error ", err);
+    console.log("Error ", err.response.data);
   }
   setAuthLoading(false);
 };
@@ -61,7 +60,7 @@ export const login = (loginData) => async (dispatch) => {
     });
     await getUser();
   } catch (err) {
-    console.log("Error ", err);
+    console.log("Error ", err.response.data);
   }
   setAuthLoading(false);
 };
@@ -86,7 +85,7 @@ export const getUser = () => async (dispatch) => {
       payload: user.user,
     });
   } catch (err) {
-    console.log("Error ", err);
+    console.log("Error ", err.response.data);
   }
   setUserLoading(false);
 };
@@ -111,7 +110,7 @@ export const getUserPosts = (userID) => async (dispatch) => {
       payload: userPosts.posts,
     });
   } catch (err) {
-    console.log("Error ", err);
+    console.log("Error ", err.response.data);
   }
   setUserPostsLoading(false);
 };
@@ -136,7 +135,7 @@ export const getAllPosts = () => async (dispatch) => {
       payload: allPosts.posts,
     });
   } catch (err) {
-    console.log("Error ", err);
+    console.log("Error ", err.response.data);
   }
   setAllPostsLoading(false);
 };
@@ -162,7 +161,7 @@ export const addPost = (postData) => async (dispatch) => {
       payload: post.post,
     });
   } catch (err) {
-    console.log("Error ", err);
+    console.log("Error ", err.response.data);
   }
   setUserPostsLoading(false);
 };
@@ -190,7 +189,7 @@ export const updatePost = (updatedPost) => async (dispatch) => {
       payload: returnedUpdatedPost.post,
     });
   } catch (err) {
-    console.log("Error ", err);
+    console.log("Error ", err.response.data);
   }
   setUserPostsLoading(false);
 };
@@ -215,7 +214,7 @@ export const deletePost = (id) => async (dispatch) => {
       payload: id,
     });
   } catch (err) {
-    console.log("Error ", err);
+    console.log("Error ", err.response.data);
   }
   setUserPostsLoading(false);
 };
