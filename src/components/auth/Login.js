@@ -16,9 +16,7 @@ const Login = ({ auth, login, authLoading }) => {
       navigate("/");
     }
     // eslint-disable-next-line
-  }, [auth, authLoading]);
-
-  if (authLoading) return Spinner;
+  }, [auth]);
 
   const onChange = (e) => setUser({ ...user, [e.target.name]: e.target.value });
 
@@ -33,6 +31,11 @@ const Login = ({ auth, login, authLoading }) => {
       password,
     });
   };
+
+  if (authLoading) {
+    return <Spinner />;
+  }
+
   return (
     <div className='auth-container'>
       <form onSubmit={onSubmit}>

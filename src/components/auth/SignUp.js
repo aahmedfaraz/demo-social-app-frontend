@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { signup } from "../../actions/userDataActions";
+import Spinner from "../layout/Spinner";
 
-const SignUp = ({ auth, signup }) => {
+const SignUp = ({ auth, signup, authLoading }) => {
   const navigate = useNavigate();
   const [user, setUser] = useState({
     name: "",
@@ -43,6 +44,10 @@ const SignUp = ({ auth, signup }) => {
       password2: "",
     });
   };
+
+  if (authLoading) {
+    return <Spinner />;
+  }
 
   return (
     <div className='auth-container'>
@@ -103,6 +108,7 @@ const SignUp = ({ auth, signup }) => {
 
 const mapStateToProps = (state) => ({
   auth: state.user.auth,
+  authLoading: state.user.authLoading,
 });
 
 export default connect(mapStateToProps, { signup })(SignUp);
