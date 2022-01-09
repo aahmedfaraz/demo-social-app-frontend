@@ -62,12 +62,16 @@ const userDataReducer = (state = initialState, action) => {
       return {
         ...state,
         userPosts: [action.payload, ...state.userPosts],
+        allPosts: [action.payload, ...state.allPosts],
         userPostsLoading: false,
       };
     case UPDATE_POST:
       return {
         ...state,
-        userPosts: state.filter((post) =>
+        userPosts: state.userPosts.map((post) =>
+          post._id === action.payload._id ? action.payload : post
+        ),
+        allPosts: state.allPosts.map((post) =>
           post._id === action.payload._id ? action.payload : post
         ),
         userPostsLoading: false,
@@ -75,7 +79,10 @@ const userDataReducer = (state = initialState, action) => {
     case DELETE_POST:
       return {
         ...state,
-        userPosts: state.filter((post) => post._id !== action.payload._id),
+        userPosts: state.userPosts.filter(
+          (post) => post._id !== action.payload
+        ),
+        allPosts: state.allPosts.filter((post) => post._id !== action.payload),
         userPostsLoading: false,
       };
     case SET_CURRENT:

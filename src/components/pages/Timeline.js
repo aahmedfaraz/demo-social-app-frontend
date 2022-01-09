@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import {
   addPost,
@@ -6,9 +6,22 @@ import {
   deletePost,
   setCurrent,
 } from "../../actions/userDataActions";
+import Spinner from "../layout/Spinner";
 
-const Timeline = ({ current, userPosts }) => {
+const Timeline = ({
+  current,
+  userPosts,
+  addPost,
+  updatePost,
+  deletePost,
+  setCurrent,
+  userPostsLoading,
+}) => {
   const [body, setBody] = useState("");
+
+  if (!userPosts || userPostsLoading) {
+    return <Spinner />;
+  }
 
   return (
     <div className='timeline'>
@@ -22,7 +35,7 @@ const Timeline = ({ current, userPosts }) => {
             type='text'
             name='body'
             value={body}
-            onChange={(e) => setBody(e.value)}
+            onChange={(e) => setBody(e.target.value)}
             placeholder='Enter Post Here'
           />
         </div>
@@ -46,21 +59,27 @@ const Timeline = ({ current, userPosts }) => {
             <>
               <button
                 className='btn update'
-                onClick={() => {
+                onClick={(e) => {
+                  e.preventDefault();
                   if (body === "") {
                     return alert("Enter some text inside body");
                   }
                   updatePost({
+                    id: current.id,
                     body,
                   });
+                  setCurrent(null);
+                  setBody("");
                 }}
               >
                 Update
               </button>
               <button
                 className='btn cancel'
-                onClick={() => {
+                onClick={(e) => {
+                  e.preventDefault();
                   setCurrent(null);
+                  setBody("");
                 }}
               >
                 Cancel
@@ -81,8 +100,10 @@ const Timeline = ({ current, userPosts }) => {
                   className='btn update'
                   onClick={() => {
                     setCurrent({
-                      body,
+                      id: post._id,
+                      body: post.body,
                     });
+                    setBody(post.body);
                   }}
                 >
                   Update
@@ -109,6 +130,12 @@ const Timeline = ({ current, userPosts }) => {
 const mapStateToProps = (state) => ({
   current: state.user.current,
   userPosts: state.user.userPosts,
+  userPostsLoading: state.user.userPostsLoading,
 });
 
-export default connect(mapStateToProps, null)(Timeline);
+export default connect(mapStateToProps, {
+  addPost,
+  updatePost,
+  deletePost,
+  setCurrent,
+})(Timeline);

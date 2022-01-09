@@ -227,7 +227,7 @@ export const updatePost = (updatedPost) => async (dispatch) => {
       payload: returnedUpdatedPost.post,
     });
   } catch (err) {
-    console.log("Error ", err.response.data);
+    console.log("Error ", err?.response?.data);
   }
   dispatch({
     type: SET_USER_POSTS_LOADING,
@@ -258,7 +258,7 @@ export const deletePost = (id) => async (dispatch) => {
       payload: id,
     });
   } catch (err) {
-    console.log("Error ", err.response.data);
+    console.log("Error ", err?.response?.data);
   }
   dispatch({
     type: SET_USER_POSTS_LOADING,
