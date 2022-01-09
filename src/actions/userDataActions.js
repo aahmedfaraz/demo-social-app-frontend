@@ -19,7 +19,10 @@ const backendURL = "http://axiom-social-app-backend.herokuapp.com";
 
 // Action to SignUp and Get Token
 export const signup = (userData) => async (dispatch) => {
-  setAuthLoading();
+  dispatch({
+    type: SET_AUTH_LOADING,
+    payload: true,
+  });
   try {
     const res = await axios({
       method: "POST",
@@ -39,12 +42,18 @@ export const signup = (userData) => async (dispatch) => {
   } catch (err) {
     console.log("Error ", err.response.data);
   }
-  setAuthLoading(false);
+  dispatch({
+    type: SET_AUTH_LOADING,
+    payload: false,
+  });
 };
 
 // Action to Login and Get Token
 export const login = (loginData) => async (dispatch) => {
-  setAuthLoading();
+  dispatch({
+    type: SET_AUTH_LOADING,
+    payload: true,
+  });
   try {
     const res = await axios({
       method: "POST",
@@ -61,12 +70,18 @@ export const login = (loginData) => async (dispatch) => {
   } catch (err) {
     console.log("Error ", err.response.data);
   }
-  setAuthLoading(false);
+  dispatch({
+    type: SET_AUTH_LOADING,
+    payload: false,
+  });
 };
 
 // Action to Get User Data using Token
 export const getUser = () => async (dispatch) => {
-  setUserLoading();
+  dispatch({
+    type: SET_USER_LOADING,
+    payload: true,
+  });
   try {
     const res = await axios({
       method: "GET",
@@ -86,12 +101,18 @@ export const getUser = () => async (dispatch) => {
   } catch (err) {
     console.log("Error ", err.response.data);
   }
-  setUserLoading(false);
+  dispatch({
+    type: SET_USER_LOADING,
+    payload: false,
+  });
 };
 
 // Action to Get User Posts
 export const getUserPosts = (userID) => async (dispatch) => {
-  setUserPostsLoading();
+  dispatch({
+    type: SET_USER_POSTS_LOADING,
+    payload: true,
+  });
   try {
     const res = await axios({
       method: "GET",
@@ -111,12 +132,18 @@ export const getUserPosts = (userID) => async (dispatch) => {
   } catch (err) {
     console.log("Error ", err.response.data);
   }
-  setUserPostsLoading(false);
+  dispatch({
+    type: SET_USER_POSTS_LOADING,
+    payload: false,
+  });
 };
 
 // Action to Get All Posts
 export const getAllPosts = () => async (dispatch) => {
-  setAllPostsLoading();
+  dispatch({
+    type: SET_ALL_POSTS_LOADING,
+    payload: true,
+  });
   try {
     const res = await axios({
       method: "GET",
@@ -136,12 +163,18 @@ export const getAllPosts = () => async (dispatch) => {
   } catch (err) {
     console.log("Error ", err.response.data);
   }
-  setAllPostsLoading(false);
+  dispatch({
+    type: SET_ALL_POSTS_LOADING,
+    payload: false,
+  });
 };
 
 // Action to add post
 export const addPost = (postData) => async (dispatch) => {
-  setUserPostsLoading();
+  dispatch({
+    type: SET_USER_POSTS_LOADING,
+    payload: true,
+  });
   try {
     const res = await axios({
       method: "POST",
@@ -162,12 +195,18 @@ export const addPost = (postData) => async (dispatch) => {
   } catch (err) {
     console.log("Error ", err.response.data);
   }
-  setUserPostsLoading(false);
+  dispatch({
+    type: SET_USER_POSTS_LOADING,
+    payload: false,
+  });
 };
 
 // Action to update post
 export const updatePost = (updatedPost) => async (dispatch) => {
-  setUserPostsLoading();
+  dispatch({
+    type: SET_USER_POSTS_LOADING,
+    payload: true,
+  });
   try {
     const res = await axios({
       method: "PUT",
@@ -190,12 +229,18 @@ export const updatePost = (updatedPost) => async (dispatch) => {
   } catch (err) {
     console.log("Error ", err.response.data);
   }
-  setUserPostsLoading(false);
+  dispatch({
+    type: SET_USER_POSTS_LOADING,
+    payload: false,
+  });
 };
 
 // Action to delete post
 export const deletePost = (id) => async (dispatch) => {
-  setUserPostsLoading();
+  dispatch({
+    type: SET_USER_POSTS_LOADING,
+    payload: true,
+  });
   try {
     await axios({
       method: "DELETE",
@@ -215,29 +260,14 @@ export const deletePost = (id) => async (dispatch) => {
   } catch (err) {
     console.log("Error ", err.response.data);
   }
-  setUserPostsLoading(false);
+  dispatch({
+    type: SET_USER_POSTS_LOADING,
+    payload: false,
+  });
 };
 
 // Action to Set Current to Update Post
 export const setCurrent = (post) => ({
   type: SET_CURRENT,
   payload: post,
-});
-
-// Action to Set Loading
-export const setAuthLoading = (loading = true) => ({
-  type: SET_AUTH_LOADING,
-  payload: loading,
-});
-export const setUserLoading = (loading = true) => ({
-  type: SET_USER_LOADING,
-  payload: loading,
-});
-export const setUserPostsLoading = (loading = true) => ({
-  type: SET_USER_POSTS_LOADING,
-  payload: loading,
-});
-export const setAllPostsLoading = (loading = true) => ({
-  type: SET_ALL_POSTS_LOADING,
-  payload: loading,
 });
